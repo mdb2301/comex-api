@@ -46,7 +46,7 @@ class AddUser(Resource):
     '''
     method: POST
     params: name,email,firebase_id,dob,fence_id
-    return: code11:Inserted user
+    return: code11: Inserted user
             code14: Error inserting to db/Already exists
             code12: Incomplete details
             code13: Unknown error
