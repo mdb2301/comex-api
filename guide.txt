@@ -1,0 +1,5 @@
+Users: name,email,firebase_id,dob,date_joined,fence_id
+Books: name,authors,pages,description,avg_rating,thumb_link,google_link,price,uploaded_by,taken
+
+
+    
