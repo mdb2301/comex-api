@@ -146,7 +146,7 @@ class GetBooksInFence(Resource):
             return jsonify(msg="Unknown error",code=13)
 
 class GetBooksByUser(Resource):
-        '''
+    '''
     method: POST
     params: fence_id
     return: code30: No books
