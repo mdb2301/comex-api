@@ -16,7 +16,8 @@ def getUser(res):
             email=r["email"],
             birth_date=r["dob"],
             date_joined=r["date_joined"],
-            fence_id=r["fence_id"])
+            fence_id=r["fence_id"],
+            updated=r["updated"])
 
 class GetUser(Resource):
     '''
@@ -60,7 +61,8 @@ class AddUser(Resource):
                 "email":data["email"],
                 "dob":data["dob"],
                 "date_joined":datetime.now(),
-                "fence_id":data["fence_id"]
+                "fence_id":data["fence_id"],
+                "updated":False
             })
             if r.acknowledged:
                 res = db.users.find_one({"_id":r.inserted_id})
