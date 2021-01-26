@@ -54,7 +54,7 @@ class AddUser(Resource):
     def post(self):
         data = request.data.decode('utf-8')
         data = json.loads(data)
-        print("\n"+data)
+        print("\n"+str(data)
         try:
             r = db.users.insert_one({
                 "name":data["name"],
