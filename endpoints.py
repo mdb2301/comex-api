@@ -4,7 +4,7 @@ from flask_restful import Resource
 import pymongo
 from datetime import datetime
 
-client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.qyhus.mongodb.net/comexdb?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.qyhus.mongodb.net/comexdb?retryWrites=true&w=majority&authSource=admin")
 db = client.comexdb
 
 def getUser(res):
