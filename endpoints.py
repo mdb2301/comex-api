@@ -59,8 +59,7 @@ class AddUser(Resource):
             r = db.users.insert_one({
                 "name":data['name'],
                 "firebase_id":data['firebase_id'],
-                "email":data["email"],
-                "dob":data["dob"],
+                "email":data['email'],
                 "date_joined":datetime.now(),
                 "fence_id":data['fence_id'],
                 "updated":False
