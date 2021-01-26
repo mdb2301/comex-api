@@ -7,17 +7,16 @@ from datetime import datetime
 client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.qyhus.mongodb.net/comexdb?retryWrites=true&w=majority&authSource=admin")
 db = client.comexdb
 
-def getUser(res):
-    for r in res:
-        return jsonify(code=11,
-            id=str(r["_id"]),
-            firebase_id=r["firebase_id"],
-            name=r["name"],
-            email=r["email"],
-            birth_date=r["dob"],
-            date_joined=r["date_joined"],
-            fence_id=r["fence_id"],
-            updated=r["updated"])
+def getUser(r):
+    return jsonify(code=11,
+        id=str(r["_id"]),
+        firebase_id=r["firebase_id"],
+        name=r["name"],
+        email=r["email"],
+        date_joined=r["date_joined"],
+        fence_id=r["fence_id"],
+        updated=r["updated"])
+        
 
 class GetUser(Resource):
     '''
@@ -54,26 +53,24 @@ class AddUser(Resource):
     def post(self):
         data = request.data.decode('utf-8')
         data = json.loads(data)
-        print("\n"+str(data))
         try:
             r = db.users.insert_one({
-                "name":data['name'],
-                "firebase_id":data['firebase_id'],
-                "email":data['email'],
+                "name":data["name"],
+                "firebase_id":data["firebase_id"],
+                "email":data["email"],
                 "date_joined":datetime.now(),
-                "fence_id":data['fence_id'],
+                "fence_id":data["fence_id"],
                 "updated":False
             })
             if r.acknowledged:
                 res = db.users.find_one({"_id":r.inserted_id})
-                for r in res:
-                    return getUser(res)
+                return getUser(res)          
             else:
                 return jsonify(msg="Couldn't add to db",code=14) 
         except pymongo.errors.DuplicateKeyError:
             return jsonify(code=14,msg="Already exists")           
-        except KeyError:
-            return jsonify(msg="Incomplete details",code=12)
+        except KeyError as e:
+            return jsonify(msg=str(e),code=12)
         except Exception as e:
             print(e)
             return jsonify(msg="Unknown error",code=13)
@@ -92,15 +89,15 @@ class AddBook(Resource):
         data = json.loads(data)
         try:
             r = db.books.insert_one({
-                "name":data['name'],
-                "authors":data['authors'],
-                "pages":data['pages'],
-                "description":data['description'],
-                "avg_rating":data['avg_rating'],
-                "thumb_link":data['thumb_link'],
-                "google_link":data['google_link'],
-                "price":data['price'],
-                "uploaded_by":data['uploaded_by'],
+                "name":data["name"],
+                "authors":data["authors"],
+                "pages":data["pages"],
+                "description":data["description"],
+                "avg_rating":data["avg_rating"],
+                "thumb_link":data["thumb_link"],
+                "google_link":data["google_link"],
+                "price":data["price"],
+                "uploaded_by":data["uploaded_by"],
                 "taken":False
             })
             if r.acknowledged:
