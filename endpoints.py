@@ -32,7 +32,7 @@ class GetUser(Resource):
         data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
-            res = db.users.find({"firebase_id":data["firebase_id"]})
+            res = db.users.find({"firebase_id":data['firebase_id']})
             if res.count()==0:
                 return jsonify(code=10)
             else:
@@ -57,12 +57,12 @@ class AddUser(Resource):
         print("\n"+str(data))
         try:
             r = db.users.insert_one({
-                "name":data["name"],
-                "firebase_id":data["firebase_id"],
+                "name":data['name'],
+                "firebase_id":data['firebase_id'],
                 "email":data["email"],
                 "dob":data["dob"],
                 "date_joined":datetime.now(),
-                "fence_id":data["fence_id"],
+                "fence_id":data['fence_id'],
                 "updated":False
             })
             if r.acknowledged:
@@ -92,15 +92,15 @@ class AddBook(Resource):
         data = json.loads(data)
         try:
             r = db.books.insert_one({
-                "name":data["name"],
-                "authors":data["authors"],
-                "pages":data["pages"],
-                "description":data["description"],
-                "avg_rating":data["avg_rating"],
-                "thumb_link":data["thumb_link"],
-                "google_link":data["google_link"],
-                "price":data["price"],
-                "uploaded_by":data["uploaded_by"],
+                "name":data['name'],
+                "authors":data['authors'],
+                "pages":data['pages'],
+                "description":data['description'],
+                "avg_rating":data['avg_rating'],
+                "thumb_link":data['thumb_link'],
+                "google_link":data['google_link'],
+                "price":data['price'],
+                "uploaded_by":data['uploaded_by'],
                 "taken":False
             })
             if r.acknowledged:
