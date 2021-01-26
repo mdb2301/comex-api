@@ -74,7 +74,7 @@ class AddUser(Resource):
             return jsonify(code=14,msg="Already exists")           
         except KeyError:
             return jsonify(msg="Incomplete details",code=12)
-        except e:
+        except Exception as e:
             print(e)
             return jsonify(msg="Unknown error",code=13)
 
