@@ -29,7 +29,7 @@ class GetUser(Resource):
             code13: Unknown error
     '''
     def post(self):
-        data = request.data.encode('utf-8')
+        data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
             res = db.users.find({"firebase_id":data["firebase_id"]})
@@ -52,7 +52,7 @@ class AddUser(Resource):
             code13: Unknown error
     '''
     def post(self):
-        data = request.data.encode('utf-8')
+        data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
             r = db.users.insert_one({
@@ -87,7 +87,7 @@ class AddBook(Resource):
             code23: Unknown error
     '''
     def post(self):
-        data = request.data.encode('utf-8')
+        data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
             r = db.books.insert_one({
@@ -121,7 +121,7 @@ class GetBooksInFence(Resource):
             code13: Unknown error 
     '''
     def post(self):
-        data = request.data.encode('utf-8')
+        data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
             res = db.fences.find({"_id":data["fence_id"],"taken":False})
@@ -157,7 +157,7 @@ class GetBooksByUser(Resource):
             code13: Unknown error
     '''
     def post(self):
-        data = request.data.encode('utf-8')
+        data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
             res = db.users.find({"firebase_id":data["firebase_id"]})
