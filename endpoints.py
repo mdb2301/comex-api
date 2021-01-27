@@ -35,7 +35,8 @@ class GetUser(Resource):
             if res.count()==0:
                 return jsonify(code=10)
             else:
-                return getUser(res)
+                for r in res:
+                    return getUser(r)
         except KeyError:
             return jsonify(msg="Incomplete details",code=12)
         except Exception as e:
