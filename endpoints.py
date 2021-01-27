@@ -58,7 +58,7 @@ class AddUser(Resource):
                 "name":data["name"],
                 "firebase_id":data["firebase_id"],
                 "email":data["email"],
-                "date_joined":datetime.now(),
+                "date_joined":datetime.timestamp(),
                 "fence_id":data["fence_id"],
                 "updated":False
             })
