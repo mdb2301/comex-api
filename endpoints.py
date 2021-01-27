@@ -31,15 +31,16 @@ class GetUser(Resource):
         data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
-            res = db.users.find({"firebase_id":data['firebase_id']})
+            res = db.users.find({"firebase_id":data["firebase_id"]})
             if res.count()==0:
                 return jsonify(code=10)
             else:
                 return getUser(res)
         except KeyError:
             return jsonify(msg="Incomplete details",code=12)
-        except:
-            return jsonify(msg="Unknown error",code=13)
+        except Exception as e:
+            print(e)
+            return jsonify(msg="Unknown Error",code=13)
 
 class AddUser(Resource):
     '''
