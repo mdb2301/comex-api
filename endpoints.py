@@ -91,6 +91,7 @@ class AddBook(Resource):
         data = json.loads(data)
         try:
             r = db.books.insert_one({
+                "etag":data["etag"],
                 "name":data["name"],
                 "authors":data["authors"],
                 "pages":data["pages"],
