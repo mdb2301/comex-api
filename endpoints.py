@@ -131,7 +131,6 @@ class GetBooksInFence(Resource):
         data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
-            queryinguser = db.users.find_one({"firebase_id":data["firebase_id"]})
             res = db.books.find({"taken":False})
             if res.count()==0:
                 return jsonify(code=30,msg="No Books")
@@ -139,7 +138,7 @@ class GetBooksInFence(Resource):
                 books = []
                 for r in res:
                     user = db.users.find_one({"firebase_id":r["uploaded_by"]})
-                    if(user["fence_id"]==queryinguser["fence_id"]):
+                    if(user["fence_id"]==data["fence_id"]):
                         books.append({
                             "id":str(r["_id"]),
                             "name":r["name"],
