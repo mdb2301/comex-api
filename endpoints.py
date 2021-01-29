@@ -131,27 +131,31 @@ class GetBooksInFence(Resource):
         data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
-            res = db.fences.find({"_id":data["fence_id"],"taken":False})
+            queryinguser = db.users.find_one({"firebase_id":data["firebase_id"]})
+            res = db.books.find({"taken":False})
             if res.count()==0:
                 return jsonify(code=30,msg="No Books")
             else:
                 books = []
                 for r in res:
-                    books.append({
-                        "id":str(r["_id"]),
-                        "name":r["name"],
-                        "authors":r["authors"],
-                        "pages":r["pages"],
-                        "description":r["description"],
-                        "avg_rating":r["avg_rating"],
-                        "thumb_link":r["thumb_link"],
-                        "google_link":r["google_link"],
-                        "price":r["price"],
-                        "uploaded_by":r["uploaded_by"]})
+                    user = db.users.find_one({"firebase_id":r["uploaded_by"]})
+                    if(user["fence_id"]==queryinguser["fence_id"]):
+                        books.append({
+                            "id":str(r["_id"]),
+                            "name":r["name"],
+                            "authors":r["authors"],
+                            "pages":r["pages"],
+                            "description":r["description"],
+                            "avg_rating":r["avg_rating"],
+                            "thumb_link":r["thumb_link"],
+                            "google_link":r["google_link"],
+                            "price":r["price"],
+                            "uploaded_by":r["uploaded_by"]})
                 return jsonify(code=31,books=books)
         except KeyError:
             return jsonify(msg="Incomplete details",code=12)
-        except:
+        except Exception as e:
+            print(e)
             return jsonify(msg="Unknown error",code=13)
 
 class GetBooksByUser(Resource):
