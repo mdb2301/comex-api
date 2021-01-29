@@ -139,17 +139,17 @@ class GetBooksInFence(Resource):
                 for r in res:
                     user = db.users.find_one({"firebase_id":r["uploaded_by"]})
                     if(user["fence_id"]==data["fence_id"]):
-                        books.append({
-                            "id":str(r["_id"]),
-                            "name":r["name"],
-                            "authors":r["authors"],
-                            "pages":r["pages"],
-                            "description":r["description"],
-                            "avg_rating":r["avg_rating"],
-                            "thumb_link":r["thumb_link"],
-                            "google_link":r["google_link"],
-                            "price":r["price"],
-                            "uploaded_by":r["uploaded_by"]})
+                        books.append(jsonify(
+                            id=str(r["_id"]),
+                            name=r["name"],
+                            authors=r["authors"],
+                            pages=r["pages"],
+                            description=r["description"],
+                            avg_rating=r["avg_rating"],
+                            thumb_link=r["thumb_link"],
+                            google_link=r["google_link"],
+                            price=r["price"],
+                            uploaded_by=r["uploaded_by"]))
                 return jsonify(code=31,books=books)
         except KeyError:
             return jsonify(msg="Incomplete details",code=12)
