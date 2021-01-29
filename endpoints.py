@@ -7,19 +7,6 @@ from datetime import datetime
 client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.qyhus.mongodb.net/comexdb?retryWrites=true&w=majority&authSource=admin")
 db = client.comexdb
 
-class Book:
-    def __init__(self,title,authors,price,rating,infoLink,image,uploaded_by,description,taken,etag):
-        self.title = str(title)
-        self.authors = str(authors)
-        self.price = int(str(price))
-        self.rating = float(str(rating))
-        self.infoLink = str(infoLink)
-        self.image = str(image)
-        self.uploaded_by = str(uploaded_by)
-        self.description = str(description)
-        self.taken = str(taken)
-        self.etag = str(etag)
-
 def getUser(r):
     return jsonify(code=11,
         id=str(r["_id"]),
@@ -152,10 +139,19 @@ class GetBooksInFence(Resource):
                 for r in res:
                     user = db.users.find_one({"firebase_id":r["uploaded_by"]})
                     if(user["fence_id"]==data["fence_id"]):
-                        books.append(Book(
-                            r["name"],r["authors"],r["price"],r["avg_rating"],r["google_link"],
-                            r["thumb_link"],r["uploaded_by"],r["description"],r["taken"],r["etag"]
-                        ).__dict__)
+                        books.append(jsonify(
+                            id=r["id"],
+                            authors=r["authors"],
+                            title=r["name"],
+                            price=r["price"],
+                            rating=r["rating"],
+                            infoLink=r["google_link"],
+                            image=r["thumb_link"],
+                            uploaded_by=r["uploaded_by"],
+                            description=r["description"],
+                            taken=r["taken"],
+                            etag=r["etag"]
+                        ))
                 return jsonify(code=31,books=books)
         except KeyError:
             return jsonify(msg="Incomplete details",code=12)
