@@ -7,6 +7,19 @@ from datetime import datetime
 client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.qyhus.mongodb.net/comexdb?retryWrites=true&w=majority&authSource=admin")
 db = client.comexdb
 
+class Book:
+    def __init__(self,title,authors,price,rating,infoLink,image,uploaded_by,description,taken,etag):
+        self.title = str(title)
+        self.authors = str(authors)
+        self.price = int(str(price))
+        self.rating = float(str(rating))
+        self.infoLink = str(infoLink)
+        self.image = str(image)
+        self.uploaded_by = str(uploaded_by)
+        self.description = str(description)
+        self.taken = str(taken)
+        self.etag = str(etag)
+
 def getUser(r):
     return jsonify(code=11,
         id=str(r["_id"]),
@@ -139,17 +152,10 @@ class GetBooksInFence(Resource):
                 for r in res:
                     user = db.users.find_one({"firebase_id":r["uploaded_by"]})
                     if(user["fence_id"]==data["fence_id"]):
-                        books.append(jsonify(
-                            id=str(r["_id"]),
-                            name=str(r["name"]),
-                            authors=str(r["authors"]),
-                            pages=int(str(r["pages"])),
-                            description=str(r["description"]),
-                            avg_rating=float(str(r["avg_rating"])),
-                            thumb_link=str(r["thumb_link"]),
-                            google_link=str(r["google_link"]),
-                            price=str(r["price"]),
-                            uploaded_by=str(r["uploaded_by"])))
+                        books.append(Book(
+                            r["name"],r["authors"],r["price"],r["avg_rating"],r["google_link"],
+                            r["thumb_link"],r["uploaded_by"],r["description"],r["taken"],r["etag"]
+                        ).__dict__)
                 return jsonify(code=31,books=books)
         except KeyError:
             return jsonify(msg="Incomplete details",code=12)
