@@ -110,6 +110,9 @@ class AddBook(Resource):
         except KeyError as e:
             print(e)
             return jsonify(msg="Incomplete details",code=23)
+        except pymongo.errors.DuplicateKeyError as e:
+            print(e)
+            return jsonify(msg="Already exists",code=25)
         except Exception as e:
             print(e)
             return jsonify(msg="Unknown error",code=24)
