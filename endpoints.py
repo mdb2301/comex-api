@@ -140,7 +140,7 @@ class GetBooksInFence(Resource):
                     user = db.users.find_one({"firebase_id":r["uploaded_by"]})
                     if(user["fence_id"]==data["fence_id"]):
                         books.append(jsonify(
-                            id=r["id"],
+                            id=r["_id"],
                             authors=r["authors"],
                             title=r["name"],
                             price=r["price"],
