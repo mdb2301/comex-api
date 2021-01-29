@@ -100,7 +100,8 @@ class AddBook(Resource):
                 "google_link":data["google_link"],
                 "price":data["price"],
                 "uploaded_by":data["uploaded_by"],
-                "taken":False
+                "taken":False,
+                "hash":data["uploaded_by"]+data["name"]
             })
             if r.acknowledged:
                 return jsonify(code=20)
