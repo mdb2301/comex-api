@@ -103,6 +103,7 @@ class AddBook(Resource):
                 "taken":False
             })
             if r.acknowledged:
+                print("Added")
                 return jsonify(code=20)
             else:
                 return jsonify(msg="Couldn't add to db",code=21)            
