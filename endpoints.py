@@ -106,9 +106,11 @@ class AddBook(Resource):
                 return jsonify(code=20)
             else:
                 return jsonify(msg="Couldn't add to db",code=21)            
-        except KeyError:
+        except KeyError as e:
+            print(e)
             return jsonify(msg="Incomplete details",code=23)
-        except:
+        except Exception as e:
+            print(e)
             return jsonify(msg="Unknown error",code=24)
 
 class GetBooksInFence(Resource):
