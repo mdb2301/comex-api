@@ -15,7 +15,10 @@ def getUser(r):
         email=r["email"],
         date_joined=r["date_joined"],
         fence_id=r["fence_id"],
-        updated=r["updated"])
+        updated=r["updated"],
+        coins=r["coins"],
+        listings=r["listings"],
+        exchanges=r["exchanges"])
         
 
 class GetUser(Resource):
@@ -62,7 +65,10 @@ class AddUser(Resource):
                 "email":data["email"],
                 "date_joined":datetime.now().timestamp(),
                 "fence_id":data["fence_id"],
-                "updated":False
+                "updated":False,
+                "coins":500,
+                "listings":0,
+                "exchanges":0
             })
             if r.acknowledged:
                 res = db.users.find_one({"_id":r.inserted_id})
@@ -106,9 +112,10 @@ class AddBook(Resource):
             })
             if r.acknowledged:
                 print("Added")
-                return jsonify(code=20)
-            else:
-                return jsonify(msg="Couldn't add to db",code=21)            
+                x = db.users.update_one({"firebase_id":data["uploaded_by"]},{$inc:{"listings":1}})
+                if x.acknowledged:
+                    return jsonify(code=20)
+            return jsonify(msg="Couldn't add to db",code=21)            
         except KeyError as e:
             print(e)
             return jsonify(msg="Incomplete details",code=23)
