@@ -162,7 +162,7 @@ class GetBooksInFence(Resource):
 class GetBooksByUser(Resource):
     '''
     method: POST
-    params: fence_id
+    params: firebase_id
     return: code30: No books
             code31: books
             code12: Incomplete/Invalid details
@@ -172,7 +172,7 @@ class GetBooksByUser(Resource):
         data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
-            res = db.users.find({"firebase_id":data["firebase_id"]})
+            res = db.books.find({"uploaded_by":data["firebase_id"]})
             if res.count()==0:
                 return jsonify(code=30,msg="No Books")
             else:
@@ -190,7 +190,9 @@ class GetBooksByUser(Resource):
                         "uploaded_by":r["uploaded_by"],
                         "taken":r["taken"]})
                 return jsonify(code=31,books=books)
-        except KeyError:
+        except KeyError as e:
+            print(e)
             return jsonify(msg="Incomplete details",code=12)
-        except:
+        except Exception as e:
+            print(e)
             return jsonify(msg="Unknown error",code=13)
