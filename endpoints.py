@@ -111,8 +111,7 @@ class AddBook(Resource):
                 "taken":False
             })
             if r.acknowledged:
-                print("Added")
-                x = db.users.update_one({"firebase_id":data["uploaded_by"]},{$inc:{"listings":1}})
+                x = db.users.update_one({"firebase_id":data["uploaded_by"]},{"$inc":{"listings":1}})
                 if x.acknowledged:
                     return jsonify(code=20)
             return jsonify(msg="Couldn't add to db",code=21)            
