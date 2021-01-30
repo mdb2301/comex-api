@@ -95,7 +95,7 @@ class AddBook(Resource):
                 "name":data["name"],
                 "authors":data["authors"],
                 "pages":data["pages"],
-                "uploaded_on":datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "uploaded_on":datetime.now().strftime("%Y/%m/%d"),
                 "description":data["description"],
                 "avg_rating":data["avg_rating"],
                 "thumb_link":data["thumb_link"],
