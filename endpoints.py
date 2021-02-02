@@ -187,7 +187,7 @@ class GetBooksByUser(Resource):
                 books = []
                 for r in res:
                     books.append({
-                        "title":r["title"],
+                        "title":r["name"],
                         "authors":r["authors"],
                         "pages":r["pages"],
                         "uploaded_on":r["uploaded_on"],
