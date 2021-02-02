@@ -63,7 +63,7 @@ class AddUser(Resource):
                 "name":data["name"],
                 "firebase_id":data["firebase_id"],
                 "email":data["email"],
-                "date_joined":datetime.now().timestamp(),
+                "date_joined":datetime.now().strftime("%d/%m/%Y %H:%M"),
                 "fence_id":data["fence_id"],
                 "updated":False,
                 "coins":500,
@@ -98,7 +98,7 @@ class AddBook(Resource):
         try:
             r = db.books.insert_one({
                 "etag":data["etag"],
-                "name":data["name"],
+                "title":data["title"],
                 "authors":data["authors"],
                 "pages":data["pages"],
                 "uploaded_on":datetime.now().strftime("%d/%m/%Y"),
@@ -187,7 +187,7 @@ class GetBooksByUser(Resource):
                 books = []
                 for r in res:
                     books.append({
-                        "name":r["name"],
+                        "title":r["title"],
                         "authors":r["authors"],
                         "pages":r["pages"],
                         "uploaded_on":r["uploaded_on"],
