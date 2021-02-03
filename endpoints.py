@@ -193,7 +193,7 @@ class GetBooksByUser(Resource):
                         "uploaded_on":r["uploaded_on"],
                         "description":r["description"],
                         "avg_rating":r["avg_rating"],
-                        "thumb_link":r["thumb_link"],
+                        "image":r["thumb_link"],
                         "google_link":r["google_link"],
                         "price":r["price"],
                         "uploaded_by":r["uploaded_by"],
