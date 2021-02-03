@@ -205,3 +205,81 @@ class GetBooksByUser(Resource):
         except Exception as e:
             print(e)
             return jsonify(msg="Unknown error",code=13)
+
+class GetListings(Resource):
+    '''
+    method: POST
+    params: firebase_id
+    return: code30: No books
+            code31: books
+            code12: Incomplete/Invalid details
+            code13: Unknown error
+    '''
+    def post(self):
+        data = request.data.decode('utf-8')
+        data = json.loads(data)
+        try:
+            res = db.books.find({"uploaded_by":data["firebase_id"],"taken":False})
+            if res.count()==0:
+                return jsonify(code=30,msg="No Books")
+            else:
+                books = []
+                for r in res:
+                    books.append({
+                        "title":r["title"],
+                        "authors":r["authors"],
+                        "pages":r["pages"],
+                        "uploaded_on":r["uploaded_on"],
+                        "description":r["description"],
+                        "avg_rating":r["avg_rating"],
+                        "image":r["thumb_link"],
+                        "google_link":r["google_link"],
+                        "price":r["price"],
+                        "uploaded_by":r["uploaded_by"],
+                        "taken":r["taken"]})
+                return jsonify(code=31,books=books)
+        except KeyError as e:
+            print(e)
+            return jsonify(msg="Incomplete details",code=12)
+        except Exception as e:
+            print(e)
+            return jsonify(msg="Unknown error",code=13)
+
+class GetExchanges(Resource):
+    '''
+    method: POST
+    params: firebase_id
+    return: code30: No books
+            code31: books
+            code12: Incomplete/Invalid details
+            code13: Unknown error
+    '''
+    def post(self):
+        data = request.data.decode('utf-8')
+        data = json.loads(data)
+        try:
+            res = db.books.find({"uploaded_by":data["firebase_id"],"taken":False})
+            if res.count()==0:
+                return jsonify(code=30,msg="No Books")
+            else:
+                books = []
+                for r in res:
+                    books.append({
+                        "title":r["title"],
+                        "authors":r["authors"],
+                        "pages":r["pages"],
+                        "uploaded_on":r["uploaded_on"],
+                        "description":r["description"],
+                        "avg_rating":r["avg_rating"],
+                        "image":r["thumb_link"],
+                        "google_link":r["google_link"],
+                        "price":r["price"],
+                        "uploaded_by":r["uploaded_by"],
+                        "taken":r["taken"]})
+                return jsonify(code=31,books=books)
+        except KeyError as e:
+            print(e)
+            return jsonify(msg="Incomplete details",code=12)
+        except Exception as e:
+            print(e)
+            return jsonify(msg="Unknown error",code=13)

@@ -11,6 +11,8 @@ api.add_resource(endpoints.AddUser,"/adduser")
 api.add_resource(endpoints.AddBook,"/addbook")
 api.add_resource(endpoints.GetBooksInFence,"/booksinfence")
 api.add_resource(endpoints.GetBooksByUser,"/booksbyuser")
+api.add_resource(endpoints.GetListings,"/listings")
+api.add_resource(endpoints.GetExchanges,"/exchanges")
 
 @app.route('/')
 def index():
