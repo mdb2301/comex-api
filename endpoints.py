@@ -161,8 +161,8 @@ class GetBooksInFence(Resource):
                             "etag":r["etag"]
                         })
                 return jsonify(code=31,books=books)
-        except KeyError:
-            return jsonify(msg="Incomplete details",code=12)
+        except KeyError as e:
+            return jsonify(msg=f"Incomplete details: {e}",code=12)
         except Exception as e:
             print(e)
             return jsonify(msg="Unknown error",code=13)
