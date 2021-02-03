@@ -148,7 +148,7 @@ class GetBooksInFence(Resource):
                     if(user["fence_id"]==data["fence_id"]):
                         books.append({
                             "authors":r["authors"],
-                            "title":r["name"],
+                            "title":r["title"],
                             "price":r["price"],
                             "uploaded_on":r["uploaded_on"],
                             "pages":r["pages"],
