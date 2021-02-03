@@ -258,7 +258,7 @@ class GetExchanges(Resource):
         data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
-            res = db.books.find({"uploaded_by":data["firebase_id"],"taken":False})
+            res = db.books.find({"uploaded_by":data["firebase_id"],"taken":True})
             if res.count()==0:
                 return jsonify(code=30,msg="No Books")
             else:
