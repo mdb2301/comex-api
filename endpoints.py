@@ -228,7 +228,7 @@ class GetListings(Resource):
                 books = []
                 for r in res:
                     books.append({
-                        "id":str(r["_id"])
+                        "id":str(r["_id"]),
                         "title":r["title"],
                         "authors":r["authors"],
                         "pages":r["pages"],
