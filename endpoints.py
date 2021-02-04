@@ -138,7 +138,7 @@ class GetBooksInFence(Resource):
         data = request.data.decode('utf-8')
         data = json.loads(data)
         try:
-            res = db.books.find({"taken":False})
+            res = db.books.find({"taken":False,"uploaded_by":{"$ne":data["firebase_id"]}})
             if res.count()==0:
                 return jsonify(code=30,msg="No Books")
             else:
@@ -226,6 +226,7 @@ class GetListings(Resource):
                 books = []
                 for r in res:
                     books.append({
+                        "id":str(r["_id"])
                         "title":r["title"],
                         "authors":r["authors"],
                         "pages":r["pages"],
