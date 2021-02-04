@@ -310,7 +310,7 @@ class Exchange(Resource):
             else:
                 return jsonify(code=41,msg="Book not found")
         except KeyError as e:
-            return jsonify(code=12,msg=e)
+            return jsonify(code=12,msg=str(e))
         except Exception as e:
-            return jsonify(code=13,msg=e)
+            return jsonify(code=13,msg=str(e))
 
