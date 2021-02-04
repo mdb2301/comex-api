@@ -305,7 +305,7 @@ class Exchange(Resource):
             if book is not None:
                 db.users.update_one({"firebase_id":data["firebase_id"]},{"$inc":{"exchanges":1,"coins":-book["price"]}})
                 db.users.update_one({"firebase_id":book["uploaded_by"]},{"$inc":{"listings":-1,"exchanges":1,"coins":book["price"]}})
-                db.books.update_one({f"_id":ObjectId(data["book_id"])},{"taken":True})
+                db.books.update_one({f"_id":ObjectId(data["book_id"])},{"$set":{"taken":True}})
                 return jsonify(code=40,msg="Successful!")
             else:
                 return jsonify(code=41,msg="Book not found")
