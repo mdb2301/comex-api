@@ -147,6 +147,7 @@ class GetBooksInFence(Resource):
                     user = db.users.find_one({"firebase_id":r["uploaded_by"]})
                     if(user["fence_id"]==data["fence_id"]):
                         books.append({
+                            "id":str(r["_id"]),
                             "authors":r["authors"],
                             "title":r["title"],
                             "price":r["price"],
@@ -187,6 +188,7 @@ class GetBooksByUser(Resource):
                 books = []
                 for r in res:
                     books.append({
+                        "id":str(r["_id"]),
                         "title":r["title"],
                         "authors":r["authors"],
                         "pages":r["pages"],
@@ -266,6 +268,7 @@ class GetExchanges(Resource):
                 books = []
                 for r in res:
                     books.append({
+                        "id":str(r["_id"]),
                         "title":r["title"],
                         "authors":r["authors"],
                         "pages":r["pages"],
