@@ -3,7 +3,7 @@ from flask import request,jsonify
 from flask_restful import Resource
 import pymongo
 from datetime import datetime
-
+from bson.objectid import ObjectId
 client = pymongo.MongoClient("mongodb+srv://admin:admin@cluster0.qyhus.mongodb.net/comexdb?retryWrites=true&w=majority&authSource=admin")
 db = client.comexdb
 
@@ -287,3 +287,30 @@ class GetExchanges(Resource):
         except Exception as e:
             print(e)
             return jsonify(msg="Unknown error",code=13)
+
+class Exchange(Resource):
+    '''
+    method: POST
+    params: firebase_id, book_id
+    return: code40: Successful
+            code41: Failed
+            code12: Incomplete/Invalid details
+            code13: Unknown error
+    '''
+    def post(self):
+        data = request.data.decode('utf-8')
+        data = json.loads(data)
+        try:
+            book = db.books.find_one({f"_id":ObjectId(data["book_id"]),"taken":False})
+            if book is not None:
+                db.users.update_one({"firebase_id":data["firebase_id"]},{"$inc":{"exchanges":1,"coins":-book["price"]}})
+                db.users.update_one({"firebase_id":book["uploaded_by"]},{"$inc":{"listings":-1,"exchanges":1,"coins":book["price"]}})
+                db.books.update_one({f"_id":ObjectId(data["book_id"])},{"taken":True})
+                return jsonify(code=40,msg="Successful!")
+            else:
+                return jsonify(code=41,msg="Book not found")
+        except pymongo.KeyError as e:
+            return jsonify(code=12,msg=e)
+        except Exception as e:
+            return jsonify(code=13,msg=e)
+
