@@ -309,7 +309,7 @@ class Exchange(Resource):
                 return jsonify(code=40,msg="Successful!")
             else:
                 return jsonify(code=41,msg="Book not found")
-        except pymongo.KeyError as e:
+        except KeyError as e:
             return jsonify(code=12,msg=e)
         except Exception as e:
             return jsonify(code=13,msg=e)
