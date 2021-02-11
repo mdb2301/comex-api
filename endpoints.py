@@ -183,10 +183,10 @@ class CheckFence(Resource):
                 return jsonify(code=62,msg="Failed.")
             else:
                 for r in res:
-                    lat1 = r["point1"]["latitude"]
-                    lon1 = r["point1"]["longitude"]
-                    lat2 = r["point2"]["latitude"]
-                    lon2 = r["point2"]["longitude"]
+                    lat1 = r["coordinates"]["point1"]["latitude"]
+                    lon1 = r["coordinates"]["point1"]["longitude"]
+                    lat2 = r["coordinates"]["point2"]["latitude"]
+                    lon2 = r["coordinates"]["point2"]["longitude"]
                     if data["latitude"] >= min(lat1,lat2) and data["latitude"] <= max(lat1,lat2) and data["longtiude"] >= min(lon1,lon2) and data["longtiude"] <= max(lon1,lon2):
                         return jsonify(code=60,fence_id=r["id"])
                 return jsonify(code=61)
