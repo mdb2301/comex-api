@@ -155,7 +155,7 @@ class AddFence(Resource):
                 }
             })
             if r.acknowledged:
-                return jsonify(code=50,msg="Added successfully",_id=r.inserted_id)
+                return jsonify(code=50,msg="Added successfully",id=str(r.inserted_id))
             else:
                 return jsonify(msg="Couldn't add to db",code=13) 
         except pymongo.errors.DuplicateKeyError:
