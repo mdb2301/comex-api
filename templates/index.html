@@ -5,5 +5,12 @@
 </head>
 <body>
     <h1>Working</h1>
+    <script>
+        window.onload = function(){
+            if (!(typeof Print === 'undefined')) {
+                Print.postMessage('Hello!');
+            }
+        }
+    </script>
 </body>
 </html>
