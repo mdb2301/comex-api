@@ -127,6 +127,70 @@ class AddBook(Resource):
             print(e)
             return jsonify(msg="Unknown error",code=24)
 
+class AddFence(Resource):
+    '''
+    method: POST
+    params: id,name,lat1,lon1,lat2,lon2
+    return: code50: success
+            code12: failed.keyerror
+            code13: failed.unknown
+            code14: failed.duplicatekey
+    '''
+    def post(self):
+        data = request.data.decode('utf-8')
+        data = json.loads(data)
+        try:
+            r = db.fences.insert_one({
+                "id":data["id"],
+                "name":data["name"],
+                "coordinates":{
+                    "point1":{
+                        "latitude":data["lat1"],
+                        "longitude":data["lon1"]
+                    },
+                    "point2":{
+                        "latitude":data["lat2"],
+                        "longitude":data["lon2"]
+                    }
+                }
+            })
+            if r.acknowledged:
+                return jsonify(code=50,msg="Added successfully",_id=r.inserted_id)
+            else:
+                return jsonify(msg="Couldn't add to db",code=13) 
+        except pymongo.errors.DuplicateKeyError:
+            return jsonify(code=14,msg="Already exists")           
+        except KeyError as e:
+            return jsonify(msg=str(e),code=12)
+        except Exception as e:
+            print(e)
+            return jsonify(msg="Unknown error",code=13)
+
+class CheckFence(Resource):
+    '''
+    method: POST
+    params: latitude,longitude
+    return: code60: fence_id
+            code61: doesn't exists
+            code62: failed
+    '''
+    def post(self):
+        data = request.data.decode('utf-8')
+        data = json.loads(data)
+        try:
+            res = db.fences.find({},{"coordinates":1,"id":1})
+            if res.count()==0:
+                return jsonify(code=62,msg="Failed.")
+            else:
+                for r in res:
+                    lat1 = r["point1"]["latitude"]
+                    lon1 = r["point1"]["longitude"]
+                    lat2 = r["point2"]["latitude"]
+                    lon2 = r["point2"]["longitude"]
+                    if data["latitude"] >= min(lat1,lat2) and data["latitude"] <= max(lat1,lat2) and data["longtiude"] >= min(lon1,lon2) and data["longtiude"] <= max(lon1,lon2):
+                        return jsonify(code=60,fence_id=r["id"])
+                return jsonify(code=61)
+
 class GetBooksInFence(Resource):
     '''
     method: POST
@@ -315,6 +379,8 @@ class Exchange(Resource):
             return jsonify(code=12,msg=str(e))
         except Exception as e:
             return jsonify(code=13,msg=str(e))
+
+
 
 
 
