@@ -190,6 +190,9 @@ class CheckFence(Resource):
                     if data["latitude"] >= min(lat1,lat2) and data["latitude"] <= max(lat1,lat2) and data["longtiude"] >= min(lon1,lon2) and data["longtiude"] <= max(lon1,lon2):
                         return jsonify(code=60,fence_id=r["id"])
                 return jsonify(code=61)
+        except Exception as e:
+            print(e)
+            return jsonify(msg="Unknown error",code=62)
 
 class GetBooksInFence(Resource):
     '''
