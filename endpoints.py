@@ -59,6 +59,7 @@ class AddUser(Resource):
     def post(self):
         data = request.data.decode('utf-8')
         data = json.loads(data)
+        updated = data["phone"]==None or data["phone"]=="" or data["phone"]=="+91"
         try:
             r = db.users.insert_one({
                 "name":data["name"],
@@ -67,7 +68,7 @@ class AddUser(Resource):
                 "date_joined":datetime.now().strftime("%d/%m/%Y %H:%M"),
                 "fence_id":data["fence_id"],
                 "phone":data["phone"],
-                "updated":data["phone"]==None ? False :True,
+                "updated":updated,
                 "coins":500,
                 "listings":0,
                 "exchanges":0
