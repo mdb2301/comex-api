@@ -69,7 +69,7 @@ class AddUser(Resource):
                 "date_joined":datetime.now().strftime("%d/%m/%Y %H:%M"),
                 "fence_id":data["fence_id"],
                 "phone":data["phone"],
-                "updated":updated,
+                "updated":not updated,
                 "coins":500,
                 "listings":0,
                 "exchanges":0
