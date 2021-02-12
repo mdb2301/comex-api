@@ -59,6 +59,7 @@ class AddUser(Resource):
     def post(self):
         data = request.data.decode('utf-8')
         data = json.loads(data)
+        print(data["phone"])
         updated = data["phone"]==None or data["phone"]=="" or data["phone"]=="+91"
         try:
             r = db.users.insert_one({
