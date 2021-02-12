@@ -384,6 +384,30 @@ class Exchange(Resource):
         except Exception as e:
             return jsonify(code=13,msg=str(e))
 
+class UpdatePhone(Resource):
+    '''
+    method: POST
+    params: firebaseId,phone
+    return: code70: successful
+            code71: failed
+            code12: Incomplete/Invalid details
+            code13: Unknown error
+    '''
+    def post(self):
+        data = request.data.decode('utf-8')
+        data = json.loads(data)
+        try:
+            phn = data["phone"]
+            res = db.users.update_one({"firebase_id":data["firebase_id"]},{"$set":{"phone":phn,"updated":True}})
+            if res.acknowledged:
+                return jsonify(code=70,msg="Done")
+            else:
+                return jsonify(code=71,msg="Failed")
+        except KeyError as e:
+            return jsonify(code=12,msg=str(e))
+        except Exception as e:
+            return jsonify(code=13,msg=str(e))
+
 
 
 
