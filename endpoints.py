@@ -143,7 +143,6 @@ class AddFence(Resource):
         data = json.loads(data)
         try:
             r = db.fences.insert_one({
-                "id":data["id"],
                 "name":data["name"],
                 "coordinates":{
                     "point1":{
@@ -190,7 +189,7 @@ class CheckFence(Resource):
                     lat2 = r["coordinates"]["point2"]["latitude"]
                     lon2 = r["coordinates"]["point2"]["longitude"]
                     if data["latitude"] >= min(lat1,lat2) and data["latitude"] <= max(lat1,lat2) and data["longtiude"] >= min(lon1,lon2) and data["longtiude"] <= max(lon1,lon2):
-                        return jsonify(code=60,fence_id=r["id"])
+                        return jsonify(code=60,fence_id=str(r["_id"]))
                 return jsonify(code=61)
         except Exception as e:
             print(e)
