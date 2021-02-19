@@ -17,6 +17,7 @@ api.add_resource(endpoints.Exchange,"/exchange")
 api.add_resource(endpoints.AddFence,"/addfence")
 api.add_resource(endpoints.CheckFence,"/checkfence")
 api.add_resource(endpoints.UpdatePhone,"/updatephone")
+api.add_resource(endpoints.FetchFences,"/fetchfences")
 
 @app.route('/')
 def index():

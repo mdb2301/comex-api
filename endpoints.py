@@ -408,7 +408,38 @@ class UpdatePhone(Resource):
         except Exception as e:
             return jsonify(code=13,msg=str(e))
 
+class FetchFences(Resource):
+    '''
+    method: POST
+    params: none
+    return: code80: fences
+            code81: not found
+    '''
+    def post(self):
+        try:
+            res = db.fences.find({})
+            if res.count()==0:
+                return jsonify(code=1)
+            else:
+                for r in res:
+                    return fence(r)
+        except Exception as e:
+            return jsonify(code=13,msg=str(e))
 
+def fence(data):
+    return jsonify(
+        code=80,
+        id=str(data["_id"]),
+        name=data["name"],
+        point1={
+            "latitude":data["coordinates"]["point1"]["latitude"],
+            "longitude":data["coordinates"]["point1"]["longitude"]
+        },
+        point2={
+            "latitude":data["coordinates"]["point2"]["latitude"],
+            "longitude":data["coordinates"]["point2"]["longitude"]
+        }
+    )
 
 
 
