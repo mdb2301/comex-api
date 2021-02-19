@@ -421,25 +421,25 @@ class FetchFences(Resource):
             if res.count()==0:
                 return jsonify(code=1)
             else:
+                fences = []
                 for r in res:
-                    return fence(r)
+                    fences.append({
+                        "id":str(r["_id"]),
+                        "name":r["name"],
+                        "point1":{
+                            "latitude":r["coordinates"]["point1"]["latitude"],
+                            "longitude":r["coordinates"]["point1"]["longitude"]
+                        },
+                        "point2":{
+                            "latitude":r["coordinates"]["point2"]["latitude"],
+                            "longitude":r["coordinates"]["point2"]["longitude"]
+                        }
+                    })
+                return jsonify(code=80,fences=fences)
+                    
         except Exception as e:
             return jsonify(code=13,msg=str(e))
 
-def fence(data):
-    return jsonify(
-        code=80,
-        id=str(data["_id"]),
-        name=data["name"],
-        point1={
-            "latitude":data["coordinates"]["point1"]["latitude"],
-            "longitude":data["coordinates"]["point1"]["longitude"]
-        },
-        point2={
-            "latitude":data["coordinates"]["point2"]["latitude"],
-            "longitude":data["coordinates"]["point2"]["longitude"]
-        }
-    )
 
 
 
